@@ -7,7 +7,7 @@
 
 <script>
 var rawFile = new XMLHttpRequest();
-rawFile.open("GET", "data.json", false);
+rawFile.open("GET", "http://127.0.0.1:5500/data.json", false);
 rawFile.send(null);
 
 var allText = rawFile.responseText;
@@ -18,12 +18,16 @@ var parsed = JSON.parse(allText);
 var count = Object.keys(parsed).length;
 
 // Make some strings to include in our output.
-var tableHeader = "<table><tr><th>Episode</th><th>Note</th></tr>";
+var tableHeader = "<table><tr><th>Episode</th><th>Date</th><th>Title</th><th>Note</th></tr>";
 var tableContent = "";
 
 // Loop through the JSON and output each row in to a string.
 for(i = 0; i < count; i++) {
-    tableContent = tableContent + "<tr><td>" + parsed[i].Episode + "</td><td>" + parsed[i].Note + "</tr>";
+    tableContent = tableContent + "<tr><td>" + parsed[i].Episode 
+                                + "</td><td>" + parsed[i].Date 
+                                + "</td><td>" + parsed[i].Title 
+                                + "</td><td>" + parsed[i].Note 
+                                + "</td></tr>";
 }
 
 var tableFooter = "</table>";

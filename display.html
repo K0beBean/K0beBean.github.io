@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Notes</h2>
+
+<div id="table"></div>
+
+<script>
+var rawFile = new XMLHttpRequest();
+rawFile.open("GET", "data.json", false);
+rawFile.send(null);
+
+var allText = rawFile.responseText;
+var parsed = JSON.parse(allText);
+
+
+// Get the amount of objects inside 'watson_tone' so we can loop through each one.
+var count = Object.keys(parsed).length;
+
+// Make some strings to include in our output.
+var tableHeader = "<table><tr><th>Episode</th><th>Note</th></tr>";
+var tableContent = "";
+
+// Loop through the JSON and output each row in to a string.
+for(i = 0; i < count; i++) {
+    tableContent = tableContent + "<tr><td>" + parsed[i].Episode + "</td><td>" + parsed[i].Note + "</tr>";
+}
+
+var tableFooter = "</table>";
+
+// Get div and output the HTML. You can include these HTML strings straight in to your emailText variable.
+document.getElementById("table").innerHTML = tableHeader + tableContent + tableFooter;
+</script>
+</body>
+
+</html>
+

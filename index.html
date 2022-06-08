@@ -7,7 +7,7 @@
 
 <script>
 var rawFile = new XMLHttpRequest();
-rawFile.open("GET", "http://127.0.0.1:5500/data.json", false);
+rawFile.open("GET", "data.json", false);
 rawFile.send(null);
 
 var allText = rawFile.responseText;

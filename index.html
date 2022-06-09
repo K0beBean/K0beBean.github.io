@@ -33,21 +33,37 @@ let search_term = "";
 const showList = () => {
   document.innerHTML = "";
   tableContent = "";
-  parsed
-    .filter((item) => {
-      return (
-        item.Title.toLowerCase().includes(search_term) ||
-        item.Note.toLowerCase().includes(search_term)
-      );
-    })
-    .forEach((e) => {
-        // Loop through the JSON and output each row in to a string.
-            tableContent = tableContent + "<tr><td>" + e.Episode 
-                                        + "</td><td>" + e.Date 
-                                        + "</td><td>" + e.Title 
-                                        + "</td><td>" + e.Note 
-                                        + "</td></tr>";
+  re = new RegExp(search_term, 'g');
+  if (search_term != "")
+  {
+    parsed
+      .filter((item) => {
+        return (
+          item.Title.toLowerCase().includes(search_term) ||
+          item.Note.toLowerCase().includes(search_term)
+        );
+      })
+      .forEach((e) => {
+          // Loop through the JSON and output each row in to a string.
+              tableContent = tableContent + "<tr><td>" + e.Episode 
+                                          + "</td><td>" + e.Date 
+                                          + "</td><td>" + highlight(e.Title, search_term)
+                                          + "</td><td>" + highlight(e.Note, search_term)
+                                          + "</td></tr>";
+      });
+  }
+  else 
+  {
+    parsed
+      .forEach((e) => {
+          // Loop through the JSON and output each row in to a string.
+              tableContent = tableContent + "<tr><td>" + e.Episode 
+                                          + "</td><td>" + e.Date 
+                                          + "</td><td>" + e.Title
+                                          + "</td><td>" + e.Note
+                                          + "</td></tr>";
     });
+  }
     document.getElementById("table").innerHTML = tableHeader + tableContent + tableFooter;
 };
 
@@ -57,6 +73,11 @@ search.addEventListener("input", (event) => {
   search_term = event.target.value.toLowerCase();
   showList();
 });
+
+function highlight(str, find) {
+  var reg = new RegExp(find, 'gi');
+  return str.replace(reg, '<mark>$&</mark>');
+}
 
 </script>
 </body>

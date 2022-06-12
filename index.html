@@ -22,7 +22,7 @@ var parsed = JSON.parse(allText);
 parsed.sort(function(a, b) {return b.Episode - a.Episode});
 
 // set up table html
-var tableHeader = "<table><tr><th>Episode</th><th>Date</th><th>Title</th><th>Note</th></tr>";
+var tableHeader = "<table><tr><th>Episode</th><th>Date</th><th>Title/Note</th></tr>";
 var tableContent = "";
 var tableFooter = "</table>";
 
@@ -58,9 +58,9 @@ const showList = () => {
           // Loop through the JSON and output each row in to a string.
               tableContent = tableContent + "<tr><td>" + e.Episode 
                                           + "</td><td>" + e.Date 
-                                          + "</td><td>" + highlight(e.Title, search_term)
-                                          + "</td><td>" + highlight(e.Note, search_term)
-                                          + "</td></tr>";
+                                          + "</td><td><b>" + highlight(e.Title, search_term)
+                                          + "</b><br>" + highlight(e.Note, search_term)
+                                          + "<br><br></td></tr>";
       });
   }
   else 
@@ -70,9 +70,9 @@ const showList = () => {
           // Loop through the JSON and output each row in to a string.
               tableContent = tableContent + "<tr><td>" + e.Episode 
                                           + "</td><td>" + e.Date 
-                                          + "</td><td>" + e.Title
-                                          + "</td><td>" + e.Note
-                                          + "</td></tr>";
+                                          + "</td><td><b>" + e.Title
+                                          + "</b><br>" + e.Note
+                                          + "<br><br></td></tr>";
     });
   }
     document.getElementById("table").innerHTML = tableHeader + tableContent + tableFooter;

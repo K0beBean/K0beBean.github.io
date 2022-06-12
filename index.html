@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<h2>Notes</h2>
+<h2><a href="/">Notes</a></h2>
 
 <input autocomplete="off" type="search" id="search" placeholder="search title or notes"/>
 
@@ -26,9 +26,20 @@ var tableHeader = "<table><tr><th>Episode</th><th>Date</th><th>Title</th><th>Not
 var tableContent = "";
 var tableFooter = "</table>";
 
+// check for url
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const url_search = urlParams.get('q')
+
 // search
 const search = document.getElementById("search");
 let search_term = "";
+
+if (url_search != null)
+{
+  search_term = url_search;
+}
+
 
 const showList = () => {
   document.innerHTML = "";
@@ -71,6 +82,8 @@ showList();
 
 search.addEventListener("input", (event) => {
   search_term = event.target.value.toLowerCase();
+  urlParams.set('q', search_term);
+  history.pushState(null, null, "?"+urlParams.toString());
   showList();
 });
 

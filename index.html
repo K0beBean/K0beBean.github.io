@@ -38,6 +38,7 @@ let search_term = "";
 if (url_search != null)
 {
   search_term = url_search;
+  search.value = search_term;
 }
 
 
@@ -84,6 +85,10 @@ search.addEventListener("input", (event) => {
   search_term = event.target.value.toLowerCase();
   urlParams.set('q', search_term);
   history.pushState(null, null, "?"+urlParams.toString());
+  if (search_term == null || search_term == "")
+  {
+    history.pushState(null, null, "/");
+  }
   showList();
 });
 

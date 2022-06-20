@@ -3,16 +3,22 @@
 <head>
     <title>Uhh Yeah Notes</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.75">
+    <style>
+      h2 {text-align: center;}
+      input {display: block; margin:auto;}
+      </style>
 </head>
 <body>
 
 <h2><a href="/">Notes</a></h2>
 
-<input autocomplete="off" type="search" id="search" placeholder="search title or notes"/>
+<input autocomplete="off" 
+        type="search" id="search" 
+        placeholder="search title or notes"
+        style="font-size: 20px"/>
 <br><br>
 <a href="javascript:void(0)" id="search_order" onclick="changeorder()">Latest</a>
 <br><br>
-<div id="table"></div>
 
 <script>
 // get data

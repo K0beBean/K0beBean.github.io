@@ -4,8 +4,46 @@
     <title>Uhh Yeah Notes</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.75">
     <style>
-      h2 {text-align: center;}
+            h2 {text-align: center;}
       input {display: block; margin:auto;}
+* {
+  box-sizing: border-box;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.itemborder {
+  border-style: solid;
+}
+
+.left {
+  width: 8%;
+}
+
+.center {
+  width: 12%;
+}
+
+.right {
+  width: 80%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
       </style>
 </head>
 <body>
@@ -17,7 +55,7 @@
         placeholder="search title or notes"
         style="font-size: 20px"/>
 <br><br>
-<a href="javascript:void(0)" id="search_order" onclick="changeorder()">Latest</a>
+<a href="javascript:void(0)" id="search_order" style="margin: 10px;" onclick="changeorder()">Latest</a>
 <br><br>
 <div id="table" style="font-size: 18px"></div>
 
@@ -35,6 +73,9 @@ parsed.sort(function(a, b) {return b.Episode - a.Episode});
 var tableHeader = "<table border=1 frame=void rules=rows><tr><th>Episode</th><th>Date</th><th>Title/Note</th></tr>";
 var tableContent = "";
 var tableFooter = "</table>";
+
+var secondheader = "<div class='row'>";
+var closer = "</div>";
 
 // check for url
 const queryString = window.location.search;
@@ -68,11 +109,10 @@ const showList = () => {
       .forEach((e) => {
         var link = "<a target='_blank' href='https://uhhyeahdude.com/index.php/show_notes/episode_" + e.Episode + "''>";
           // Loop through the JSON and output each row in to a string.
-              tableContent = tableContent + "<tr><td>" + link + e.Episode
-                                          + "</a></td><td>" + e.Date 
-                                          + "</td><td><b>" + highlight(e.Title, search_term)
-                                          + "</b><br>" + highlight(e.Note, search_term)
-                                          + "<br><br></td></tr>";
+          tableContent = tableContent + "<div class='column left'>" + link + e.Episode + "</a></div>"
+                                      + "<div class='column center'>" + e.Date + "</div>"
+                                      + "<div class='column right'><b>" + highlight(e.Title, search_term) 
+                                      + "</b><br><br>" + highlight(e.Note, search_term) + "</div>"
       });
   }
   else 
@@ -81,14 +121,13 @@ const showList = () => {
       .forEach((e) => {
         var link = "<a target='_blank' href='https://uhhyeahdude.com/index.php/show_notes/episode_" + e.Episode + "''>";
           // Loop through the JSON and output each row in to a string.
-              tableContent = tableContent + "<tr><td>" + link + e.Episode
-                                          + "</a></td><td>" + e.Date 
-                                          + "</td><td><b>" + e.Title
-                                          + "</b><br>" + e.Note
-                                          + "<br><br></td></tr>";
+          tableContent = tableContent + "<div class='column left'>" + link + e.Episode + "</a></div>"
+                                      + "<div class='column center'>" + e.Date + "</div>"
+                                      + "<div class='column right'><b>" + e.Title 
+                                      + "</b><br><br>" + e.Note + "</div>"
     });
   }
-    document.getElementById("table").innerHTML = tableHeader + tableContent + tableFooter;
+    document.getElementById("table").innerHTML = secondheader + tableContent + closer;
 };
 
 showList();

@@ -13,39 +13,6 @@ input {display: block; margin:auto;}
   word-spacing: 30px;
 }
 
-.animatedword1 {
-  animation: word1 5s infinite alternate;
-}
-
-.animatedword2 {
-  animation: word2 5s infinite alternate;
-}
-
-.animatedword3 {
-  animation: word3 5s infinite alternate;
-}
-
-@keyframes word1 {
-  0% { color: #e787a2; }
-  30% { color: #ef6592; }
-  60% { color: #f78baf; }
-  100% { color: #f9c1d9; }
-}
-
-@keyframes word2 {
-  0% { color: #ef6592; }
-  30% { color: #e787a2; }
-  60% { color: #f9c1d9; }
-  100% { color: #f78baf; }
-}
-
-@keyframes word3 {
-  0% { color: #f78baf; }
-  30% { color: #ef6592; }
-  60% { color: #f9c1d9; }
-  100% { color: #e787a2; }
-}
-
 * {
   box-sizing: border-box;
 }
@@ -98,10 +65,8 @@ mark {
 <body style="background-color:#e0d4e4">
 
 <h1 class="title">
-  <a href="/" style="text-decoration:none;">
-    <span class="animatedword1">Uhh</span>
-    <span class="animatedword2">Yeah</span>
-    <span class="animatedword3">Notes</span>
+  <a href="/" style="text-decoration:none; color:#ef6592">
+    Uhh Yeah Notes
    </a>
 </h1>
 <br>
@@ -218,6 +183,18 @@ function changeorder() {
 
   showList();
 }
+
+/*
+randomly selecting background
+var bgcolorlist = ['silver', '#BAF3C3', '#C3BAF3'];
+
+window.onload = function(){
+    var arr = document.querySelectorAll(".three");
+    for(var i=0;i<arr.length;i++){
+         arr[i].style.background = bgcolorlist[Math.floor(Math.random()*bgcolorlist.length)]
+    }
+}*/
+
 
 </script>
 </body>

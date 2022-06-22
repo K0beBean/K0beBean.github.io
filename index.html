@@ -4,8 +4,48 @@
     <title>Uhh Yeah Notes</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=1">
     <style>
-            h1 {text-align: center;}
-      input {display: block; margin:auto;}
+           
+input {display: block; margin:auto;}
+
+.title {
+  text-align: center;
+  font-size:60px;
+  word-spacing: 30px;
+}
+
+.animatedword1 {
+  animation: word1 5s infinite alternate;
+}
+
+.animatedword2 {
+  animation: word2 5s infinite alternate;
+}
+
+.animatedword3 {
+  animation: word3 5s infinite alternate;
+}
+
+@keyframes word1 {
+  0% { color: #e787a2; }
+  30% { color: #ef6592; }
+  60% { color: #f78baf; }
+  100% { color: #f9c1d9; }
+}
+
+@keyframes word2 {
+  0% { color: #ef6592; }
+  30% { color: #e787a2; }
+  60% { color: #f9c1d9; }
+  100% { color: #f78baf; }
+}
+
+@keyframes word3 {
+  0% { color: #f78baf; }
+  30% { color: #ef6592; }
+  60% { color: #f9c1d9; }
+  100% { color: #e787a2; }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -45,7 +85,7 @@ hr.solid {
 }
 
 mark { 
-  background-color:thistle;
+  background-color:#e0d4e4;
 }
 
 @media screen and (max-width: 600px) {
@@ -55,14 +95,20 @@ mark {
 }
 </style>
 </head>
-<body style="background-color:mintcream">
+<body style="background-color:#e0d4e4">
 
-<h1><a href="/" style='color:slateblue; text-decoration-color:slateblue;'>Uhh Yeah Notes</a></h1>
-<br><br>
+<h1 class="title">
+  <a href="/" style="text-decoration:none;">
+    <span class="animatedword1">Uhh</span>
+    <span class="animatedword2">Yeah</span>
+    <span class="animatedword3">Notes</span>
+   </a>
+</h1>
+<br>
 <input autocomplete="off" 
         type="search" id="search" 
         placeholder="search title or notes"
-        style="font-size: 22px; background-color:mintcream; color:slateblue"/>
+        style="font-size: 22px; background-color:#e0d4e4; color:black; border-color:black;outline-color:black;"/>
 <br><br>
 <a href="javascript:void(0)" id="search_order" style="margin: 10px; color:black;" onclick="changeorder()">Latest</a>
 <br><br>
@@ -120,7 +166,7 @@ const showList = () => {
           // Loop through the JSON and output each row in to a string.
           tableContent = tableContent + "<hr class='solid'><div class='column left'>" + link + e.Episode + "</a></div>"
                                       + "<div class='column center'>" + e.Date + "</div>"
-                                      + "<div class='column right' style='background-color:bisque'><b>" + highlight(e.Title, search_term) 
+                                      + "<div class='column right' style='background-color:#f9c1d9'><b>" + highlight(e.Title, search_term) 
                                       + "</b><br><br>" + highlight(e.Note, search_term) + "<br><br></div></hr>"
       });
   }
@@ -132,7 +178,7 @@ const showList = () => {
           // Loop through the JSON and output each row in to a string.
           tableContent = tableContent + "<hr class='solid'><div class='column left'>" + link + e.Episode + "</a></div>"
                                       + "<div class='column center'>" + e.Date + "</div>"
-                                      + "<div class='column right' style='background-color:bisque'><b>" + e.Title 
+                                      + "<div class='column right' style='background-color:#f9c1d9; margin-bottom:15px'><b>" + e.Title 
                                       + "</b><br><br>" + e.Note + "<br><br></div></hr>"
     });
   }

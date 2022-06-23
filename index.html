@@ -68,6 +68,19 @@
       background-color: #e0d4e4;
     }
 
+    .homelink {
+      text-decoration:none;
+      color:#ef6592;
+    }
+
+    .table {
+      font-size: 18px;
+    }
+
+    .bodycolor {
+      background-color:#e0d4e4;
+    }
+
     @media screen and (max-width: 600px) {
       .column {
         width: 100%;
@@ -76,10 +89,10 @@
   </style>
 </head>
 
-<body style="background-color:#e0d4e4">
+<body class="bodycolor">
 
   <h1 class="title">
-    <a href="/" style="text-decoration:none; color:#ef6592">Uhh Yeah Notes</a>
+    <a href="/" class="homelink">Uhh Yeah Notes</a>
   </h1>
   <br>
   <input autocomplete="off" type="search" id="search" placeholder="search"/>
@@ -88,7 +101,7 @@
   <a href="javascript:void(0)" id="search_order" class="order" onclick="changeorder()">Latest</a>
   <br>
   <br>
-  <div id="table" style="font-size: 18px"/>
+  <div id="table" class="table"/>
 
   <script>
     // get data
@@ -166,14 +179,14 @@
 
     // change the sort order
     function changeorder() {
-      var current = document.getElementById("search_order").innerHTML;
-      if (current == "Latest") {
+      var current = document.getElementById("search_order");
+      if (current.innerHTML == "Latest") {
         parsed.sort(function (a, b) { return a.Episode - b.Episode });
-        document.getElementById("search_order").innerHTML = "Earliest";
+        current.innerHTML = "Earliest";
       }
       else {
         parsed.sort(function (a, b) { return b.Episode - a.Episode });
-        document.getElementById("search_order").innerHTML = "Latest";
+        current.innerHTML = "Latest";
       }
       showList();
     }

@@ -1,203 +1,201 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Uhh Yeah Notes</title>
-    <meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=1">
-    <style>
-           
-input {display: block; margin:auto;}
+  <title>Uhh Yeah Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=1">
+  <style>
 
-.title {
-  text-align: center;
-  font-size:60px;
-  word-spacing: 30px;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    input {
+      display: block;
+      margin: auto;
+      font-size: 22px; 
+      background-color:#e0d4e4; 
+      color:black; 
+      border-color:black;
+      outline-color:black;
+    }
 
-/* Create two unequal columns that floats next to each other */
-.column {
-  float: left;
-  padding: 10px;
-}
+    .title {
+      text-align: center;
+      font-size: 60px;
+      word-spacing: 30px;
+    }
 
-.itemborder {
-  border-style: solid;
-}
+    .column {
+      float: left;
+      padding: 10px;
+    }
 
-.left {
-  width: 8%;
-}
+    .itemborder {
+      border-style: solid;
+    }
 
-.center {
-  width: 12%;
-}
+    .left {
+      width: 8%;
+    }
 
-.right {
-  width: 80%;
-}
+    .center {
+      width: 12%;
+    }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
+    .right {
+      width: 80%;
+    }
 
-/* Solid border */
-hr.solid {
-  border-top: 3px solid rgb(9, 8, 8);
-}
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
 
-mark { 
-  background-color:#e0d4e4;
-}
+    .order{
+      margin: 10px;
+      color: black;
+    }
 
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
-  }
-}
-</style>
+    hr.solid {
+      border-top: 3px solid rgb(9, 8, 8);
+    }
+
+    mark {
+      background-color: #e0d4e4;
+    }
+
+    @media screen and (max-width: 600px) {
+      .column {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
+
 <body style="background-color:#e0d4e4">
 
-<h1 class="title">
-  <a href="/" style="text-decoration:none; color:#ef6592">
-    Uhh Yeah Notes
-   </a>
-</h1>
-<br>
-<input autocomplete="off" 
-        type="search" id="search" 
-        placeholder="search title or notes"
-        style="font-size: 22px; background-color:#e0d4e4; color:black; border-color:black;outline-color:black;"/>
-<br><br>
-<a href="javascript:void(0)" id="search_order" style="margin: 10px; color:black;" onclick="changeorder()">Latest</a>
-<br><br>
-<div id="table" style="font-size: 18px"></div>
+  <h1 class="title">
+    <a href="/" style="text-decoration:none; color:#ef6592">Uhh Yeah Notes</a>
+  </h1>
+  <br>
+  <input autocomplete="off" type="search" id="search" placeholder="search"/>
+  <br>
+  <br>
+  <a href="javascript:void(0)" id="search_order" class="order" onclick="changeorder()">Latest</a>
+  <br>
+  <br>
+  <div id="table" style="font-size: 18px"/>
 
-<script>
-// get data
-var rawFile = new XMLHttpRequest();
-rawFile.open("GET", "data.json", false);
-rawFile.send(null);
-
-var allText = rawFile.responseText;
-var parsed = JSON.parse(allText);
-parsed.sort(function(a, b) {return b.Episode - a.Episode});
-
-// set up table html
-var tableHeader = "<table border=1 frame=void rules=rows><tr><th>Episode</th><th>Date</th><th>Title/Note</th></tr>";
-var tableContent = "";
-var tableFooter = "</table>";
-
-var secondheader = "<div class='row'>";
-var closer = "</div>";
-
-// check for url
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const url_search = urlParams.get('q')
-
-// search
-const search = document.getElementById("search");
-let search_term = "";
-
-if (url_search != null)
-{
-  search_term = url_search;
-  search.value = search_term;
-}
-
-
-const showList = () => {
-  document.innerHTML = "";
-  tableContent = "";
-  re = new RegExp(search_term, 'g');
-  if (search_term != "" && search_term.length > 2)
-  {
-    parsed
-      .filter((item) => {
-        return (
-          item.Title.toLowerCase().includes(search_term) ||
-          item.Note.toLowerCase().includes(search_term)
-        );
-      })
-      .forEach((e) => {
-        var link = "<a target='_blank' style='color:black' href='https://uhhyeahdude.com/index.php/show_notes/episode_" + e.Episode + "''>";
-          // Loop through the JSON and output each row in to a string.
-          tableContent = tableContent + "<hr class='solid'><div class='column left'>" + link + e.Episode + "</a></div>"
-                                      + "<div class='column center'>" + e.Date + "</div>"
-                                      + "<div class='column right' style='background-color:#f9c1d9'><b>" + highlight(e.Title, search_term) 
-                                      + "</b><br><br>" + highlight(e.Note, search_term) + "<br><br></div></hr>"
-      });
-  }
-  else 
-  {
-    parsed
-      .forEach((e) => {
-        var link = "<a target='_blank' style='color:black' href='https://uhhyeahdude.com/index.php/show_notes/episode_" + e.Episode + "''>";
-          // Loop through the JSON and output each row in to a string.
-          tableContent = tableContent + "<hr class='solid'><div class='column left'>" + link + e.Episode + "</a></div>"
-                                      + "<div class='column center'>" + e.Date + "</div>"
-                                      + "<div class='column right' style='background-color:#f9c1d9; margin-bottom:15px'><b>" + e.Title 
-                                      + "</b><br><br>" + e.Note + "<br><br></div></hr>"
-    });
-  }
-    document.getElementById("table").innerHTML = secondheader + tableContent + closer;
-};
-
-showList();
-
-search.addEventListener("input", (event) => {
-  search_term = event.target.value.toLowerCase();
-  urlParams.set('q', search_term);
-  history.replaceState({}, "Uhh Yeah Notes Search", "?"+urlParams.toString());
-  if (search_term == null || search_term == "")
-  {
-    history.replaceState({}, "Uhh Yeah Notes Search", "/");
-  }
-  showList();
-});
-
-function highlight(str, find) {
-  var reg = new RegExp(find, 'gi');
-  return str.replace(reg, '<mark>$&</mark>');
-}
-
-function changeorder() {
-  var current = document.getElementById("search_order").innerHTML;
-  if (current == "Latest")
-  {
-    parsed.sort(function(a, b) {return a.Episode - b.Episode});
-    document.getElementById("search_order").innerHTML = "Earliest";
-  }
-  else
-  {
-    parsed.sort(function(a, b) {return b.Episode - a.Episode});
-    document.getElementById("search_order").innerHTML = "Latest";
-  }
-
-  showList();
-}
-
-/*
-randomly selecting background
-var bgcolorlist = ['silver', '#BAF3C3', '#C3BAF3'];
-
-window.onload = function(){
-    var arr = document.querySelectorAll(".three");
-    for(var i=0;i<arr.length;i++){
-         arr[i].style.background = bgcolorlist[Math.floor(Math.random()*bgcolorlist.length)]
+  <script>
+    // get data
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", "data.json", false);
+    rawFile.send(null);
+    // parse json and sort it by latest
+    var allText = rawFile.responseText;
+    var parsed = JSON.parse(allText);
+    parsed.sort(function (a, b) { return b.Episode - a.Episode });
+    // set up table 
+    var header = "<div class='row'>";
+    var closer = "</div>";
+    // check for url parameter
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const url_search = urlParams.get('q')
+    // set up search
+    const search = document.getElementById("search");
+    let search_term = "";
+    // set it to parameter if passed in
+    if (url_search != null) {
+      search_term = url_search;
+      search.value = search_term;
     }
-}*/
+    // Functions
 
+    // add a listener to update parameter and search term
+    search.addEventListener("input", (event) => {
+      search_term = event.target.value.toLowerCase();
+      urlParams.set('q', search_term);
+      history.replaceState({}, "Uhh Yeah Notes Search", "?" + urlParams.toString());
+      if (search_term == null || search_term == "") {
+        history.replaceState({}, "Uhh Yeah Notes Search", "/");
+      }
+      showList();
+    });  
+    
+    // filter list and highlight if search term, otherwise show entire list
+    const showList = () => {
+      document.innerHTML = "";
+      content = "";
+      re = new RegExp(search_term, 'g');
+      if (search_term != "" && search_term.length > 2) {
+        parsed
+          .filter((item) => {
+            return (
+              item.Title.toLowerCase().includes(search_term) ||
+              item.Note.toLowerCase().includes(search_term)
+            );
+          })
+          .forEach((e) => {
+            var link = "<a target='_blank' style='color:black' href='https://uhhyeahdude.com/index.php/show_notes/episode_" + e.Episode + "''>";
+            // Loop through the JSON and output each row in to a string.
+            content = content + "<hr class='solid'><div class='column left'>" + link + e.Episode + "</a></div>"
+              + "<div class='column center'>" + e.Date + "</div>"
+              + "<div class='column right' style='background-color:#f9c1d9'><b>" + highlight(e.Title, search_term)
+              + "</b><br><br>" + highlight(e.Note, search_term) + "<br><br></div></hr>"
+          });
+      }
+      else {
+        parsed
+          .forEach((e) => {
+            var link = "<a target='_blank' style='color:black' href='https://uhhyeahdude.com/index.php/show_notes/episode_" + e.Episode + "''>";
+            // Loop through the JSON and output each row in to a string.
+            content = content + "<hr class='solid'><div class='column left'>" + link + e.Episode + "</a></div>"
+              + "<div class='column center'>" + e.Date + "</div>"
+              + "<div class='column right' style='background-color:#f9c1d9; margin-bottom:15px'><b>" + e.Title
+              + "</b><br><br>" + e.Note + "<br><br></div></hr>"
+          });
+      }
+      document.getElementById("table").innerHTML = header + content + closer;
+    };
 
-</script>
+    // highlight search term
+    function highlight(str, find) {
+      var reg = new RegExp(find, 'gi');
+      return str.replace(reg, '<mark>$&</mark>');
+    }
+
+    // change the sort order
+    function changeorder() {
+      var current = document.getElementById("search_order").innerHTML;
+      if (current == "Latest") {
+        parsed.sort(function (a, b) { return a.Episode - b.Episode });
+        document.getElementById("search_order").innerHTML = "Earliest";
+      }
+      else {
+        parsed.sort(function (a, b) { return b.Episode - a.Episode });
+        document.getElementById("search_order").innerHTML = "Latest";
+      }
+      showList();
+    }
+
+    /*
+    randomly selecting background
+    var bgcolorlist = ['silver', '#BAF3C3', '#C3BAF3'];
+    
+    window.onload = function(){
+        var arr = document.querySelectorAll(".three");
+        for(var i=0;i<arr.length;i++){
+             arr[i].style.background = bgcolorlist[Math.floor(Math.random()*bgcolorlist.length)]
+        }
+    }*/
+
+    // load the list
+    showList();
+
+  </script>
 </body>
 
 </html>
-

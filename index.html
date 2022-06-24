@@ -177,15 +177,29 @@
     });
     // Functions
 
-    // add a listener to update parameter and search term
-    search.addEventListener("input", (event) => {
-      search_term = event.target.value.toLowerCase();
+    let timer;              // Timer identifier
+    const waitTime = 150;   // Wait time in milliseconds 
+
+    // Search function
+    const mainsearch = (text) => {
+      search_term = text;
       urlParams.set('q', search_term);
       history.replaceState({}, "Uhh Yeah Notes Search", "?" + urlParams.toString());
       if (search_term == null || search_term == "") {
         history.replaceState({}, "Uhh Yeah Notes Search", "/");
       }
       showList();
+    };
+
+    // Listen for `keyup` event
+    search.addEventListener('keyup', (e) => {
+        const text = e.currentTarget.value;
+        // Clear timer
+        clearTimeout(timer);
+        // Wait for X ms and then process the request
+        timer = setTimeout(() => {
+            mainsearch(text);
+        }, waitTime);
     });
 
     // filter list and highlight if search term, otherwise show entire list
@@ -195,7 +209,7 @@
       content = "";
       var baselink = "<a target='_blank' style='color:black' href='https://uhhyeahdude.com/index.php/show_notes/episode_";
       var reg = new RegExp(search_term, 'gi');
-      if (search_term != "" && search_term.length > 1) {
+      if (search_term != "") {
         parsed
           .filter((item) => {
             return (

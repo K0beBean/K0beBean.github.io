@@ -95,7 +95,7 @@
     <a href="/" class="homelink titlecolor">Uhh Yeah Notes</a>
   </h1>
   <br>
-  <input autocomplete="off" type="search" id="search" placeholder="search" class="background" />
+  <input autocomplete="off" autocapitalize="off" type="search" id="search" placeholder="search" class="background" />
   <br>
   <br>
   <a href="javascript:void(0)" id="search_order" class="order" onclick="changeorder()">Latest</a>
@@ -127,6 +127,54 @@
       search_term = url_search;
       search.value = search_term;
     }
+    // set up colors
+    let styles = [
+      {
+        "background": "#e0d4e4",
+        "notes": "#f9c1d9",
+        "title": "#ef6592"
+      },
+      {
+        "background": "#c3c44f",
+        "notes": "#79a467",
+        "title": "#4b8969"
+      },
+      {
+        "background": "#8ce5e8",
+        "notes": "#d28278",
+        "title": "#c54647"
+      },
+      {
+        "background": "#c9a4e8",
+        "notes": "#91946e",
+        "title": "#698131"
+      },
+      {
+        "background": "#f0d4d8",
+        "notes": "#889cc1",
+        "title": "#4b79a6"
+      },
+    ]
+
+    var selected_style;
+    var titlecolor;
+    var backgroundcolor;
+    var notescolor;
+
+    selected_style = styles[Math.floor(Math.random() * styles.length)];
+
+    titlecolor = document.querySelector('.titlecolor');
+    titlecolor.style.color = selected_style.title;
+
+    backgroundcolor = document.querySelectorAll('.background');
+    backgroundcolor.forEach(el => {
+      el.style.backgroundColor = selected_style.background;
+    });
+
+    notescolor = document.querySelectorAll(".notesbackground");
+    notescolor.forEach(el => {
+      el.style.backgroundColor = selected_style.notes;
+    });
     // Functions
 
     // add a listener to update parameter and search term
@@ -202,56 +250,6 @@
         current.innerHTML = "Latest";
       }
       showList();
-    }
-
-    let styles = [
-      {
-        "background": "#e0d4e4",
-        "notes": "#f9c1d9",
-        "title": "#ef6592"
-      },
-      {
-        "background": "#c3c44f",
-        "notes": "#79a467",
-        "title": "#4b8969"
-      },
-      {
-        "background": "#8ce5e8",
-        "notes": "#d28278",
-        "title": "#c54647"
-      },
-      {
-        "background": "#c9a4e8",
-        "notes": "#91946e",
-        "title": "#698131"
-      },
-      {
-        "background": "#f0d4d8",
-        "notes": "#889cc1",
-        "title": "#4b79a6"
-      },
-    ]
-
-    var selected_style;
-    var titlecolor;
-    var backgroundcolor;
-    var notescolor;
-
-    window.onload = function () {
-      selected_style = styles[Math.floor(Math.random() * styles.length)];
-
-      titlecolor = document.querySelector('.titlecolor');
-      titlecolor.style.color = selected_style.title;
-
-      backgroundcolor = document.querySelectorAll('.background');
-      backgroundcolor.forEach(el => {
-        el.style.backgroundColor = selected_style.background;
-      });
-
-      notescolor = document.querySelectorAll(".notesbackground");
-      notescolor.forEach(el => {
-        el.style.backgroundColor = selected_style.notes;
-      });
     }
 
     // load the list

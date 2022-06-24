@@ -5,7 +5,6 @@
   <title>Uhh Yeah Notes</title>
   <meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=1">
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -13,11 +12,22 @@
     input {
       display: block;
       margin: auto;
-      font-size: 22px; 
-      background-color:#e0d4e4; 
-      color:black; 
-      border-color:black;
-      outline-color:black;
+      font-size: 22px;
+      color: black;
+      border-color: black;
+      outline-color: black;
+    }
+
+    .background {
+      background-color: #e0d4e4;
+    }
+
+    .notesbackground {
+      background-color: #f9c1d9;
+    }
+
+    titlecolor {
+      color: #ef6592;
     }
 
     .title {
@@ -45,7 +55,6 @@
 
     .right {
       width: 80%;
-      background-color:#f9c1d9;
       margin-bottom: 15px;
     }
 
@@ -55,7 +64,7 @@
       clear: both;
     }
 
-    .order{
+    .order {
       margin: 10px;
       color: black;
     }
@@ -64,21 +73,12 @@
       border-top: 3px solid rgb(9, 8, 8);
     }
 
-    mark {
-      background-color: #e0d4e4;
-    }
-
     .homelink {
-      text-decoration:none;
-      color:#ef6592;
+      text-decoration: none;
     }
 
     .table {
-      font-size: 18px;
-    }
-
-    .bodycolor {
-      background-color:#e0d4e4;
+      font-size: 20px;
     }
 
     @media screen and (max-width: 600px) {
@@ -89,19 +89,19 @@
   </style>
 </head>
 
-<body class="bodycolor">
+<body class="background">
 
   <h1 class="title">
-    <a href="/" class="homelink">Uhh Yeah Notes</a>
+    <a href="/" class="homelink titlecolor">Uhh Yeah Notes</a>
   </h1>
   <br>
-  <input autocomplete="off" type="search" id="search" placeholder="search"/>
+  <input autocomplete="off" type="search" id="search" placeholder="search" class="background" />
   <br>
   <br>
   <a href="javascript:void(0)" id="search_order" class="order" onclick="changeorder()">Latest</a>
   <br>
   <br>
-  <div id="table" class="table"/>
+  <div id="table" class="table" />
 
   <script>
     // get data
@@ -138,16 +138,16 @@
         history.replaceState({}, "Uhh Yeah Notes Search", "/");
       }
       showList();
-    });  
-    
+    });
+
     // filter list and highlight if search term, otherwise show entire list
-    var mark = '<mark>$&</mark>';
+    var mark = '<mark class="background">$&</mark>';
     const showList = () => {
       document.innerHTML = "";
       content = "";
       var baselink = "<a target='_blank' style='color:black' href='https://uhhyeahdude.com/index.php/show_notes/episode_";
       var reg = new RegExp(search_term, 'gi');
-      if (search_term != "") {
+      if (search_term != "" && search_term.length > 1) {
         parsed
           .filter((item) => {
             return (
@@ -166,15 +166,28 @@
           });
       }
       document.getElementById("table").innerHTML = header + content + closer;
+
+      // reapply selected color because the css gets reset.
+      //fix this later (or maybe change cololors on update?
+      notescolor = document.querySelectorAll(".notesbackground");
+      notescolor.forEach(el => {
+        el.style.backgroundColor = selected_style.notes;
+      });
+
+      backgroundcolor = document.querySelectorAll('.background');
+      backgroundcolor.forEach(el => {
+        el.style.backgroundColor = selected_style.background;
+      });
+
     };
 
     // create row from data
-    function createrow(ep, date, title, note){
+    function createrow(ep, date, title, note) {
       return "<hr class='solid'><div class='column left'>" + ep + "</div>"
-              + "<div class='column center'>" + date + "</div>"
-              + "<div class='column right'><b>" + title
-              + "</b><br><br>" + note 
-              + "<br><br></div></hr>"
+        + "<div class='column center'>" + date + "</div>"
+        + "<div class='column right notesbackground'><b>" + title
+        + "</b><br><br>" + note
+        + "<br><br></div></hr>"
     }
 
     // change the sort order
@@ -191,16 +204,55 @@
       showList();
     }
 
-    /*
-    randomly selecting background
-    var bgcolorlist = ['silver', '#BAF3C3', '#C3BAF3'];
-    
-    window.onload = function(){
-        var arr = document.querySelectorAll(".three");
-        for(var i=0;i<arr.length;i++){
-             arr[i].style.background = bgcolorlist[Math.floor(Math.random()*bgcolorlist.length)]
-        }
-    }*/
+    let styles = [
+      {
+        "background": "#e0d4e4",
+        "notes": "#f9c1d9",
+        "title": "#ef6592"
+      },
+      {
+        "background": "#c3c44f",
+        "notes": "#79a467",
+        "title": "#4b8969"
+      },
+      {
+        "background": "#8ce5e8",
+        "notes": "#d28278",
+        "title": "#c54647"
+      },
+      {
+        "background": "#c9a4e8",
+        "notes": "#91946e",
+        "title": "#698131"
+      },
+      {
+        "background": "#f0d4d8",
+        "notes": "#889cc1",
+        "title": "#4b79a6"
+      },
+    ]
+
+    var selected_style;
+    var titlecolor;
+    var backgroundcolor;
+    var notescolor;
+
+    window.onload = function () {
+      selected_style = styles[Math.floor(Math.random() * styles.length)];
+
+      titlecolor = document.querySelector('.titlecolor');
+      titlecolor.style.color = selected_style.title;
+
+      backgroundcolor = document.querySelectorAll('.background');
+      backgroundcolor.forEach(el => {
+        el.style.backgroundColor = selected_style.background;
+      });
+
+      notescolor = document.querySelectorAll(".notesbackground");
+      notescolor.forEach(el => {
+        el.style.backgroundColor = selected_style.notes;
+      });
+    }
 
     // load the list
     showList();

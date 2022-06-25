@@ -91,16 +91,12 @@
 
 <body class="background">
 
-  <h1 class="title">
-    <a href="/" class="homelink titlecolor">Uhh Yeah Notes</a>
-  </h1>
+  <h1 class="title"><a href="/" class="homelink titlecolor">Uhh Yeah Notes</a></h1>
   <br>
-  <input autocomplete="off" autocapitalize="off" type="search" id="search" placeholder="search" class="background" />
-  <br>
-  <br>
+  <input autocomplete="off" autocapitalize="off" type="search" id="search" placeholder="..." class="background" />
+  <br><br>
   <a href="javascript:void(0)" id="search_order" class="order" onclick="changeorder()">Latest</a>
-  <br>
-  <br>
+  <br><br>
   <div id="table" class="table" />
 
   <script>
@@ -130,29 +126,34 @@
     // set up colors
     let styles = [
       {
+        // pinkish
         "background": "#e0d4e4",
         "notes": "#f9c1d9",
         "title": "#ef6592"
       },
       {
+        // greenish
         "background": "#c3c44f",
         "notes": "#79a467",
         "title": "#4b8969"
       },
       {
-        "background": "#8ce5e8",
-        "notes": "#d28278",
-        "title": "#c54647"
-      },
-      {
-        "background": "#c9a4e8",
-        "notes": "#91946e",
-        "title": "#698131"
-      },
-      {
+        // light blue
         "background": "#f0d4d8",
         "notes": "#889cc1",
         "title": "#4b79a6"
+      },
+      {
+        // like the sea
+        "background": "#b0bfe5",
+        "notes": "#54a7b5",
+        "title": "#3b9691"
+      },
+      {      
+        // green on green 
+        "background": "#7fc6a8",
+        "notes": "#ace3dd",
+        "title": "#b7d6df"
       },
     ]
 
@@ -177,28 +178,20 @@
     });
     // Functions
 
-    let timer;              // Timer identifier
-    const waitTime = 200;   // Wait time in milliseconds 
-
-    // Search function
-    const mainsearch = (text) => {
-      search_term = text;
-      urlParams.set('q', search_term);
-      history.replaceState({}, "Uhh Yeah Notes Search", "?" + urlParams.toString());
-      if (search_term == null || search_term == "") {
-        history.replaceState({}, "Uhh Yeah Notes Search", "/");
-      }
-      showList();
-    };
-
-    // Listen for `keyup` event
+    // listen for input on a timer
+    let timer;              
+    const waitTime = 200;  
     search.addEventListener('input', (e) => {
         const text = e.currentTarget.value;
-        // Clear timer
         clearTimeout(timer);
-        // Wait for X ms and then process the request
         timer = setTimeout(() => {
-            mainsearch(text);
+          search_term = text;
+          urlParams.set('q', search_term);
+          history.replaceState({}, "Uhh Yeah Notes Search", "?" + urlParams.toString());
+          if (search_term == null || search_term == "") {
+            history.replaceState({}, "Uhh Yeah Notes Search", "/");
+          }
+          showList();
         }, waitTime);
     });
 
@@ -247,7 +240,8 @@
     function createrow(ep, date, title, note) {
       return "<hr class='solid'><div class='column left'>" + ep + "</div>"
         + "<div class='column center'>" + date + "</div>"
-        + "<div class='column right notesbackground'><b>" + title
+        + "<div class='column right notesbackground'><b>" 
+        + "<span style='font-size:22px'>" + title + "</span>"
         + "</b><br><br>" + note
         + "<br><br></div></hr>"
     }

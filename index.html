@@ -178,7 +178,7 @@
     // Functions
 
     let timer;              // Timer identifier
-    const waitTime = 150;   // Wait time in milliseconds 
+    const waitTime = 200;   // Wait time in milliseconds 
 
     // Search function
     const mainsearch = (text) => {
@@ -192,7 +192,7 @@
     };
 
     // Listen for `keyup` event
-    search.addEventListener('keyup', (e) => {
+    search.addEventListener('input', (e) => {
         const text = e.currentTarget.value;
         // Clear timer
         clearTimeout(timer);

@@ -206,6 +206,7 @@
     document.innerHTML = "";
     content = "";
     var baselink = "<a target='_blank' style='color:black' href='https://uhhyeahdude.com/index.php/show_notes/episode_";
+    var musiclink = "<a target='_blank' style='color:black' href='https://www.google.com/search?q=";
     var reg = new RegExp(search_term, 'gi');
     if (search_term != "") {
       parsed
@@ -215,13 +216,13 @@
           );
         })
         .forEach((e) => {
-          content = content + createrow(baselink + e.Episode + "''>" + e.Episode + "</a>", e.Date, e.Title.replace(reg, mark), e.Note.replace(reg, mark))
+          content = content + createrow(baselink + e.Episode + "''>" + e.Episode + "</a>", e.Date, e.Title.replace(reg, mark), e.Note.replace(reg, mark), musiclink + fixedEncodeURIComponent(e.Intro) + "''>" + e.Intro + "</a>", musiclink + fixedEncodeURIComponent(e.Outro) + "''>" + e.Outro + "</a>")
         });
     }
     else {
       parsed
         .forEach((e) => {
-          content = content + createrow(baselink + e.Episode + "''>" + e.Episode + "</a>", e.Date, e.Title, e.Note)
+          content = content + createrow(baselink + e.Episode + "''>" + e.Episode + "</a>", e.Date, e.Title, e.Note, musiclink + fixedEncodeURIComponent(e.Intro) + "''>" + e.Intro + "</a>", musiclink + fixedEncodeURIComponent(e.Outro) + "''>" + e.Outro + "</a>")
         });
     }
     document.getElementById("table").innerHTML = header + content + closer;
@@ -233,12 +234,14 @@
   };
 
   // create row from data
-  function createrow(ep, date, title, note) {
+  function createrow(ep, date, title, note, intro, outro) {
     return "<hr class='solid'><div class='column left'>" + ep + "</div>"
       + "<div class='column center'>" + date + "</div>"
       + "<div class='column right notesbackground'><b>"
       + "<span style='font-size:22px'>" + title + "</span>"
       + "</b><br><br>" + note
+      + "<br><br>" + "Intro: " + intro
+      + "<br><br>" + "Outro: " + outro
       + "<br><br></div></hr>"
   }
 
@@ -247,6 +250,12 @@
     document.querySelectorAll('.background').forEach(el => { el.style.backgroundColor = selected_style.background; });
     document.querySelectorAll(".notesbackground").forEach(el => { el.style.backgroundColor = selected_style.notes; });
   }
+
+  function fixedEncodeURIComponent(str) {
+  return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+    return '%' + c.charCodeAt(0).toString(16).toUpperCase();
+  });
+ }
 
   // load the list
   showList();

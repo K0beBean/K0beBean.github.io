@@ -103,7 +103,9 @@
   <br>
   <input autocomplete="off" autocapitalize="off" type="search" id="search" placeholder="..." class="background" />
   <br><br>
-  <a href="javascript:void(0)" id="search_order" class="order">Latest</a>
+  <a href="javascript:void(0)" onclick="changeOrder('latest')" class="order" id="latest">Latest</a>
+  <a href="javascript:void(0)" onclick="changeOrder('earliest')" class="order" id="earliest">Earliest</a>
+  <a href="javascript:void(0)" onclick="changeOrder('random')" class="order" id="random">Random</a>
   <br><br>
   <div id="table" class="table" />
 </body>
@@ -167,6 +169,7 @@
   ]
 
   var selected_style = styles[Math.floor(Math.random() * styles.length)];
+  document.getElementById("latest").style.backgroundColor = selected_style.notes;
   // Functions
 
   // listen for input on a timer
@@ -187,17 +190,38 @@
   });
 
   // set up button onclick
-  document.getElementById("search_order").onclick = function () {
-    var current = document.getElementById("search_order");
-    if (current.innerHTML == "Latest") {
+  const changeOrder = (order) => {
+    if (order == "earliest") {
       parsed.sort(function (a, b) { return a.Episode - b.Episode });
-      current.innerHTML = "Earliest";
+      document.getElementById("earliest").style.backgroundColor = selected_style.notes;
+      document.getElementById("latest").style.backgroundColor = "";
+      document.getElementById("random").style.backgroundColor = "";
     }
-    else {
+    else if (order == "latest") {
       parsed.sort(function (a, b) { return b.Episode - a.Episode });
-      current.innerHTML = "Latest";
+      document.getElementById("earliest").style.backgroundColor = "";
+      document.getElementById("latest").style.backgroundColor = selected_style.notes;
+      document.getElementById("random").style.backgroundColor = "";
     }
+    else if (order == "random") {
+      parsed = shuffle(parsed);
+      document.getElementById("earliest").style.backgroundColor = "";
+      document.getElementById("latest").style.backgroundColor = "";
+      document.getElementById("random").style.backgroundColor = selected_style.notes;
+    }
+
     showList();
+  }
+
+  function shuffle(array) {
+    let currentIndex = array.length, randomIndex;
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+    return array;
   }
 
   // filter list and highlight if search term, otherwise show entire list
@@ -230,7 +254,6 @@
     // reapply selected color because the css gets reset.
     //fix this later
     setcolors();
-
   };
 
   // create row from data
@@ -252,10 +275,10 @@
   }
 
   function fixedEncodeURIComponent(str) {
-  return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
-    return '%' + c.charCodeAt(0).toString(16).toUpperCase();
-  });
- }
+    return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
+      return '%' + c.charCodeAt(0).toString(16).toUpperCase();
+    });
+  }
 
   // load the list
   showList();

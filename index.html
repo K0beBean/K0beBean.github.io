@@ -29,11 +29,7 @@
       background-color: #f9c1d9;
     }
 
-    titlecolor {
-      color: #ef6592;
-    }
-
-    .title {
+  .title {
       text-align: center;
       font-size: 60px;
       word-spacing: 30px;
@@ -103,7 +99,7 @@
 
 <body class="background margins">
 
-  <h1 class="title"><a href="/" style="color:black" class="homelink">Uhh Yeah Notes</a></h1>
+  <h1 class="title"><a href="/" class="homelink" style="color:black">Uhh Yeah Notes</a></h1>
   <br>
   <input autocomplete="off" autocapitalize="off" type="search" id="search" class="background" />
   <br><br>
@@ -273,7 +269,6 @@
   }
 
   function setcolors() {
-    document.querySelector('.titlecolor').style.color = selected_style.title;
     document.querySelectorAll('.background').forEach(el => { el.style.backgroundColor = selected_style.background; });
     document.querySelectorAll(".notesbackground").forEach(el => { el.style.backgroundColor = selected_style.notes; });
   }

@@ -11,6 +11,8 @@
 
     body {
       font-family: 'Verdana', serif;
+      padding-left:50px;
+      padding-right:50px;
     }
 
     input {
@@ -46,11 +48,7 @@
     }
 
     .left {
-      width: 8%;
-    }
-
-    .center {
-      width: 12%;
+      width: 20%;
     }
 
     .right {
@@ -70,7 +68,7 @@
     }
 
     hr.solid {
-      border-top: 3px solid rgb(9, 8, 8);
+      border-top: 4px solid black;
     }
 
     .homelink {
@@ -94,6 +92,22 @@
       .margins {
         margin: 1em;
       }
+
+      .homelink {
+      font-size: 30px;
+      }
+
+      .table
+      {
+        font-size:14px;
+      }
+
+
+    body {
+      padding-left:10px;
+      padding-right:10px;
+    }
+      
     }
   </style>
 </head>
@@ -140,31 +154,26 @@
       // pinkish
       "background": "#e0d4e4",
       "notes": "#f9c1d9",
-      "title": "#ef6592"
     },
     {
       // greenish
       "background": "#c3c44f",
       "notes": "#79a467",
-      "title": "#4b8969"
     },
     {
       // light blue
       "background": "#f0d4d8",
       "notes": "#889cc1",
-      "title": "#4b79a6"
     },
     {
       // like the sea
       "background": "#b0bfe5",
       "notes": "#54a7b5",
-      "title": "#3b9691"
     },
     {
       // purpleish
       "background": "#a790d2",
       "notes": "#8494cb",
-      "title": "#486c81"
     },
   ]
 
@@ -258,10 +267,9 @@
 
   // create row from data
   function createrow(ep, date, title, note, intro, outro) {
-    return "<hr class='solid'><div class='column left'>" + ep + "</div>"
-      + "<div class='column center'>" + date + "</div>"
+    return "<hr class='solid'><div class='column left'>" + ep + "<br><br>" + date + "</div>"
       + "<div class='column right notesbackground'><b>"
-      + "<span style='font-size:22px'>" + title + "</span>"
+      + "<span style='font-size:22px;word-wrap:break-word;'>" + title + "</span>"
       + "</b><br><br>" + note
       + "<br><br>" + "Intro: " + intro
       + "<br><br>" + "Outro: " + outro

@@ -68,7 +68,7 @@
     }
 
     hr.solid {
-      border-top: 4px solid black;
+      border-top: 2px solid black;
     }
 
     .homelink {
@@ -116,6 +116,7 @@
 
   <h1 class="title"><a href="/" class="homelink" style="color:black">Uhh Yeah Notes</a></h1>
   <input autocomplete="off" autocapitalize="off" type="search" id="search" class="background" />
+  <button onclick="showmusic()">show music</button>
   <br><br>
   <a href="javascript:void(0)" onclick="changeOrder('latest')" class="order" id="latest">Latest</a>
   <a href="javascript:void(0)" onclick="changeOrder('earliest')" class="order" id="earliest">Earliest</a>
@@ -143,6 +144,8 @@
   // set up search
   const search = document.getElementById("search");
   let search_term = "";
+  // set up music show
+  var musiconly = false;
   // set it to parameter if passed in
   if (url_search != null) {
     search_term = url_search;
@@ -222,6 +225,33 @@
     showList();
   }
 
+  const showmusic = () => {
+     if (musiconly == false)
+     {
+      document.innerHTML = "";
+    content = "";
+    var baselink = "<a target='_blank' style='color:black' href='https://uhhyeahdude.com/index.php/show_notes/episode_";
+    var musiclink = "<a target='_blank' style='color:black' href='https://www.google.com/search?q=";
+    var reg = new RegExp(search_term, 'gi');
+    parsed
+        .forEach((e) => {
+          content = content + createmusicrow(baselink + e.Episode + "''>" + e.Episode + "</a>", musiclink + fixedEncodeURIComponent(e.Intro) + "''>" + e.Intro + "</a>", musiclink + fixedEncodeURIComponent(e.Outro) + "''>" + e.Outro + "</a>")
+        });
+    document.getElementById("table").innerHTML = header + content + closer;
+
+    // reapply selected color because the css gets reset.
+    //fix this later
+    setcolors();
+    
+    musiconly = true;
+     
+     }
+     else {
+      musiconly = false;
+      showList();
+     }
+  }
+
   function shuffle(array) {
     let currentIndex = array.length, randomIndex;
     while (currentIndex != 0) {
@@ -276,6 +306,13 @@
       + "<br><br></div></hr>"
   }
 
+  function createmusicrow(ep, intro, outro) {
+    return "<hr class='solid'><div class='column left'>" + ep + "</div>"
+      + "<div class='column right notesbackground'>"
+      + "Intro: " + intro
+      + "<br><br>Outro: " + outro
+      + "<br><br></div></hr>"
+  }
   function setcolors() {
     document.querySelectorAll('.background').forEach(el => { el.style.backgroundColor = selected_style.background; });
     document.querySelectorAll(".notesbackground").forEach(el => { el.style.backgroundColor = selected_style.notes; });

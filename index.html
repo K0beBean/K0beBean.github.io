@@ -101,7 +101,6 @@
         font-size: 14px;
       }
 
-
       body {
         padding-left: 10px;
         padding-right: 10px;
@@ -116,12 +115,11 @@
   <h1 class="title"><a href="/" class="homelink" style="color:black">Uhh Yeah Notes</a></h1>
   <input autocomplete="off" autocapitalize="off" type="search" id="search" class="background" />
   <div>
-    <a href="javascript:void(0)" onclick="showmusic()" id="show_music_button" class="order">music only</button>
-    <br><br>
+    <br>
     <a href="javascript:void(0)" onclick="changeOrder('latest')" class="order" id="latest">Latest</a>
     <a href="javascript:void(0)" onclick="changeOrder('earliest')" class="order" id="earliest">Earliest</a>
     <a href="javascript:void(0)" onclick="changeOrder('random')" class="order" id="random">Random</a>
-    <br><br>
+    <a href="javascript:void(0)" onclick="showmusic()" id="show_music_button" class="order">music</button>
     </div>
     <div id="table" class="table" />
 </body>
@@ -224,7 +222,7 @@
     }
 
     var showmusiclink = document.getElementById("show_music_button");
-    showmusiclink.innerHTML = "music only<br><br>";
+    showmusiclink.innerHTML = "music";
     musiconly = false;
 
     showList();
@@ -256,12 +254,12 @@
       setcolors();
 
       musiconly = true;
-      text.innerHTML = "full notes<br><br>";
+      text.innerHTML = "notes";
 
     }
     else {
       musiconly = false;
-      text.innerHTML = "music only<br><br>";
+      text.innerHTML = "music";
       showList();
     }
   }

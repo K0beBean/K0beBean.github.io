@@ -30,6 +30,8 @@
 
     .notesbackground {
       background-color: #f9c1d9;
+      border-radius: 25px;
+      border: 2px solid black;
     }
 
     .title {
@@ -68,7 +70,8 @@
     }
 
     hr.solid {
-      border-top: 2px solid black;
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
     }
 
     .homelink {
@@ -82,6 +85,12 @@
 
     .margins {
       margin: 3em;
+    }
+
+    .roundinput {
+      border-radius: 25px;
+      border: 2px solid black;
+      padding-left: 20px;
     }
 
     @media screen and (max-width: 600px) {
@@ -113,13 +122,14 @@
 <body class="background margins">
 
   <h1 class="title"><a href="/" class="homelink" style="color:black">Uhh Yeah Notes</a></h1>
-  <input autocomplete="off" autocapitalize="off" type="search" id="search" class="background" />
+  <input autocomplete="off" autocapitalize="off" type="search" id="search" class="background roundinput" />
   <div>
     <br>
     <a href="javascript:void(0)" onclick="changeOrder('latest')" class="order" id="latest">Latest</a>
     <a href="javascript:void(0)" onclick="changeOrder('earliest')" class="order" id="earliest">Earliest</a>
     <a href="javascript:void(0)" onclick="changeOrder('random')" class="order" id="random">Random</a>
-    <a href="javascript:void(0)" onclick="showmusic()" id="show_music_button" class="order">music</button>
+    <a href="javascript:void(0)" onclick="showmusic()" id="show_music_button" class="order">music</a>
+    <br><br>
     </div>
     <div id="table" class="table" />
 </body>
@@ -177,6 +187,16 @@
       "background": "#a790d2",
       "notes": "#8494cb",
     },
+    {
+      // oceany
+      "background": "#6cd2df",
+      "notes": "#69e0a1",
+    },
+    {
+      // earthy
+      "background": "#83bbeb",
+      "notes": "#a7b9e0",
+    },
   ]
 
   var selected_style = styles[Math.floor(Math.random() * styles.length)];
@@ -222,10 +242,41 @@
     }
 
     var showmusiclink = document.getElementById("show_music_button");
-    showmusiclink.innerHTML = "music";
-    musiconly = false;
 
-    showList();
+    if (musiconly)
+    {
+      document.innerHTML = "";
+      content = "";
+      var baselink = "<a target='_blank' style='color:black' href='https://uhhyeahdude.com/index.php/show_notes/episode_";
+      var musiclink = "<a target='_blank' style='color:black' href='https://www.google.com/search?q=";
+      var reg = new RegExp(search_term, 'gi');
+      parsed
+        .forEach((e) => {
+          if (e.Intro)
+          {
+            content = content + createmusicrow(baselink + e.Episode + "''>" + e.Episode + "</a>", musiclink + fixedEncodeURIComponent(e.Intro) + "''>" + e.Intro + "</a>", "Intro: ")
+          }
+          if (e.Outro)
+          {
+            content = content + createmusicrow(baselink + e.Episode + "''>" + e.Episode + "</a>", musiclink + fixedEncodeURIComponent(e.Outro) + "''>" + e.Outro + "</a>", "Outro: ")
+          }
+        });
+      document.getElementById("table").innerHTML = header + content + closer;
+
+      // reapply selected color because the css gets reset.
+      //fix this later
+      setcolors();
+
+      musiconly = true;
+      text.innerHTML = "notes";
+    }
+    else 
+    {
+      showmusiclink.innerHTML = "music";
+      musiconly = false;
+
+      showList();
+    }
   }
 
   const showmusic = () => {

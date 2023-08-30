@@ -338,7 +338,7 @@
       parsed
         .filter((item) => {
           return (
-            item.Title.toLowerCase().includes(search_term) || item.Note.toLowerCase().includes(search_term)
+            item.Title.toLowerCase().includes(search_term.toLowerCase()) || item.Note.toLowerCase().includes(search_term.toLowerCase())
           );
         })
         .forEach((e) => {
